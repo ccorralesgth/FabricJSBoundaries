@@ -10,7 +10,11 @@
     
     <style>
         .btn-secondary {
-              margin-top: 10px !important;
+              margin-top: 10px;
+              margin-bottom: 10px;
+        }
+        canvas{
+          border:1px solid black;          
         }
     </style>
     <title>Widget Fabric.js</title>
@@ -18,21 +22,21 @@
   <body>
     <div class="container">
         <div class="row">
-            <div class="col"></div>
             <div class="col">
                 <button type="button" class="btn btn-secondary" >Add figure</button>
                 <button type="button" class="btn btn-secondary">Add Image </button>
             </div>
-            <div class="col"></div>            
         </div>
         <div class="row">
-            <div class="col"></div>
             <div class="col">
-                <canvas width="500" height="500" >
-
-                </canvas>
+              <div id="canvasCreated">                
+              </div>    
+              <div id="canvasLoaded">
+                <canvas id="canvas" width="500" height="500" >
+                </canvas>        
+              </div>    
+              
             </div>
-            <div class="col"></div>
         </div>
     </div>
 
