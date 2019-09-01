@@ -1,11 +1,13 @@
-
 //global variables
-
 //color array for random figures
 var colors = new Array(
     '#D84315', '#f0a30a', '#00838F', '#558B2F', '#00BCD4', '#AD1457', '#6A1B9A','#b3477a','#4527A0',
     '#CDDC39', '#BA68C8', '#80D8FF', '#FFFF00', '#000', '#CCC', '#2d73d5', '#398371', '#65bd00',
     '#376b5d', '#e66070', '#bb4615', '#c54a53', '#c67d31', '#2694d8', '#a6714d', '#854e34','#3431b7');
+
+// var imagesUrl = new Array(
+// ""
+// )
 
 var activeCanvas;
 var zoomLevel = 1;
@@ -33,27 +35,54 @@ var canvas = new fabric.Canvas('canvas');
 canvas.setBackgroundColor('#c3c3c3'); 
 canvas.renderAll();
  
-// create a rectangle object
-var rect = new fabric.Rect({
-	left: 100,
-	top: 50,
-	fill: '#D81B60',
-	width: 50,
-	height: 50,
-	// strokeWidth: 2,
-	// stroke: "#880E4F",
-	// rx: 10,
-	// ry: 10,
-    // angle: 45,
-    //lockRotation : false,
-	scaleX: 3,
-	scaleY: 3,
-    hasControls: false,
-    //transparentCorners: true
-});
+$('button#addFigure').on('click',function(){
+    AddFigure(canvas);
+})
 
-canvas.add(rect);
+//functions 
+function AddFigure(canvas){    
+    var figure = Math.random(0,3);
+    figure = 0;
 
+    switch(figure){
+        case 0:
+            addRect(canvas);
+            break;
+        case 1:
+            addCircle(canvas);
+            break;
+        case 2:
+            addTriangle(canvas);
+            break;
+        default:
+            addRect(canvas);            
+    }
+}
 
+function AddImage(images){
 
+}
 
+function addRect(canvas){
+    var color = colors[Math.floor(Math.random() * 26)];
+    var xPos = Math.floor(Math.random() * 400);
+    var yPos = Math.floor(Math.random() * 400)
+    var rect = new fabric.Rect({
+        left: xPos,
+        top: yPos,
+        fill: color,
+        width: 50,
+        height: 50,        
+        scaleX: 3,
+        scaleY: 3,
+        hasControls: false,
+        //transparentCorners: true
+    });    
+     canvas.add(rect);
+}
+function addCircle(canvas){
+
+}
+function addTriangle(canvas){
+
+}
