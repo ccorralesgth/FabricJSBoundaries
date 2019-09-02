@@ -16,8 +16,9 @@ var activeCanvas;
 var zoomLevel = 1;
 var selecting = false;
 var rect, isDown, originX, originY;
+//var objActiveWidth, objActiveHeigth;
 
-console.log("--- starting loading canvas object ---")
+console.log("--- starting loading canvas object ---");
 
 //creating canvas element
 // var canvasContainer = document.getElementById('canvasCreated');
@@ -38,7 +39,7 @@ var canvas = new fabric.Canvas('canvas');
 canvas.setBackgroundColor('#c3c3c3'); 
 canvas.renderAll();
  
-//binding btns
+//buttons bindings
 $('button#add').on('click',function(){
     AddFigure(canvas);
 });
@@ -46,6 +47,13 @@ $('button#add').on('click',function(){
 $('button#clear').on('click',function(){
      deleteObjects(canvas);
 });
+
+//canvas bindings
+canvas.on('object:moving',function(opt){
+  obj = canvas.getActiveObjects()[0];
+  validateBoundaries(canvas,obj);
+});
+
 
 //functions 
 function AddFigure(canvas){  
@@ -126,4 +134,64 @@ function deleteObjects(canvas){
     canvas.getObjects().forEach(function(object){
         canvas.remove(object);
     });
+}
+
+function validateBoundaries(cnv,obj) {
+    
+    //rect = canvasFront.getActiveObject();
+    rect = obj;
+    var objActiveWidth = obj.width;
+    var objActiveHeigth = obj.height;
+    // if (imgFrontW < cnv.width)
+    //     objActiveWidth = imgFrontW;
+    // else
+    //     objActiveWidth = cnv.width;
+
+    // if (imgFrontH < cnv.height)
+    //     objActiveHeigth = imgFrontH;
+    // else {
+    //     if (imgFrontW > imgFrontH)
+    //         objActiveHeigth = getProportion(imgFrontW, imgFrontH, cnv.height);
+    //     else
+    //         objActiveHeigth = cnv.height;
+    // }
+
+
+    // if (cnv.getZoom() <= 1) {
+        //validate X axis
+        if (rect.left < cnv.vptCoords.tl.x) {
+            rect.left = cnv.vptCoords.tl.x;
+        }
+        if (rect.left + objActiveWidth > cnv.vptCoords.tr.x) {
+            rect.left = cnv.vptCoords.tr.x - objActiveWidth;
+        }
+
+        //validate Y axis
+        if (rect.top < cnv.vptCoords.tl.y) {
+            rect.top = cnv.vptCoords.tl.y;
+        }
+        if (rect.top + objActiveHeigth > cnv.vptCoords.bl.y) {
+            rect.top = cnv.vptCoords.bl.y - objActiveHeigth;
+        }
+    // } else {
+    //     //validate X axis
+    //     if (rect.left < cnv.vptCoords.tl.x - (objActiveWidth / 2.5)) {
+    //         rect.left = cnv.vptCoords.tl.x - (objActiveWidth / 2.5);
+    //     }
+    //     if (rect.left + (objActiveWidth / 2.5) > cnv.vptCoords.tr.x) {
+    //         rect.left = cnv.vptCoords.tr.x - (objActiveWidth / 2.5);
+    //     }
+
+    //     //validate Y axis
+    //     if (rect.top < cnv.vptCoords.tl.y - (objActiveHeigth / 2.5)) {
+    //         rect.top = cnv.vptCoords.tl.y - (objActiveHeigth / 2.5);
+    //     }
+    //     if (rect.top + (objActiveHeigth / 2.5) > cnv.vptCoords.bl.y) {
+    //         rect.top = cnv.vptCoords.bl.y - + (objActiveHeigth / 2.5);
+    //     }
+    // }
+}
+
+function getProportion(num1, num2 , num3) {
+    return num3 / (num1 / num2);
 }
